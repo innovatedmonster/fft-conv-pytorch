@@ -128,6 +128,20 @@ def fft_conv(
     kernel_fr = rfftn(padded_kernel.float(), dim=tuple(range(2, signal.ndim)))
 
     kernel_fr.imag *= -1
+    #test1, check fr
+    # print('signal_fr =\n', signal_fr)
+    # print('kernel_fr =\n', kernel_fr)
+    # print('original out_fr =\n\t', complex_matmul(signal_fr, kernel_fr, groups=groups))
+
+    #test2, check Hadmard Multiplication
+    # scale_signal = torch.tensor([[[[9, 1, 2], 
+    #                          [3, 4, 5],
+    #                          [6, 7, 8]]]], dtype=float)
+    # descale_signal = 1.0 / scale_signal
+    # signal_fr = scale_signal * signal_fr
+    # kernel_fr = kernel_fr * descale_signal
+    # print('scaled out_fr =\n\t', complex_matmul(signal_fr, kernel_fr, groups=groups))
+
     output_fr = complex_matmul(signal_fr, kernel_fr, groups=groups)
     output = irfftn(output_fr, dim=tuple(range(2, signal.ndim)))
 
